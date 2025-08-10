@@ -1,0 +1,48 @@
+## Simple One-Server Web Infrastructure Design
+
+Imagine a user wants to access your website by typing `www.foobar.com` into their browser. Here’s how the request flows through a simple web infrastructure:
+
+### Components Used
+- **1 server**: A single physical or virtual machine with IP address `8.8.8.8`.
+- **1 web server (Nginx)**: Handles HTTP requests from users and serves static content or forwards requests to the application server.
+- **1 application server**: Runs the website’s backend code (e.g., PHP, Python, Node.js).
+- **1 application files (your code base)**: The actual code and assets for the website.
+- **1 database (MySQL)**: Stores and manages website data.
+- **1 domain name (`foobar.com`)**: Configured with a `www` record pointing to `8.8.8.8`.
+
+### How It Works
+1. **User Request**: The user enters `www.foobar.com` in their browser.
+2. **DNS Resolution**: The browser queries DNS for `www.foobar.com`. The DNS server returns the IP address `8.8.8.8` (the server).
+3. **Web Server (Nginx)**: The browser sends an HTTP request to `8.8.8.8`. Nginx receives the request and:
+   - Serves static files directly (images, CSS, JS).
+   - Forwards dynamic requests to the application server.
+4. **Application Server**: Processes the request, runs the code, and interacts with the database if needed.
+5. **Database (MySQL)**: Stores and retrieves data as requested by the application server.
+6. **Response**: The application server sends the response back to Nginx, which forwards it to the user’s browser.
+
+### Explanations
+- **What is a server?**
+  - A server is a computer or virtual machine that provides resources, data, services, or programs to other computers (clients) over a network.
+- **Role of the domain name:**
+  - The domain name (`foobar.com`) is a human-readable address that maps to the server’s IP address, making it easier for users to access the website.
+- **Type of DNS record for `www` in `www.foobar.com`:**
+  - The `www` is a subdomain. The DNS record is typically an **A record** (Address Record) that maps `www.foobar.com` to the server’s IP address (`8.8.8.8`).
+- **Role of the web server (Nginx):**
+  - Handles incoming HTTP requests, serves static content, and forwards dynamic requests to the application server.
+- **Role of the application server:**
+  - Runs the backend code, processes business logic, and interacts with the database.
+- **Role of the database (MySQL):**
+  - Stores, retrieves, and manages data for the website (e.g., user info, posts).
+- **Communication protocol:**
+  - The server communicates with the user’s computer using the **HTTP/HTTPS protocol** over the internet.
+
+### Issues with This Infrastructure
+- **SPOF (Single Point of Failure):**
+  - If the server fails, the entire website becomes unavailable.
+- **Downtime during maintenance:**
+  - Deploying new code or restarting the web server causes downtime, making the site temporarily inaccessible.
+- **Scalability limitations:**
+  - The setup cannot handle high traffic; performance degrades if too many users access the site simultaneously.
+
+---
+This design is simple and cost-effective for small projects, but it has limitations in reliability and scalability.
